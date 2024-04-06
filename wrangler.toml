@@ -1,0 +1,21 @@
+name = "" # todo
+main = "./src/index.ts"
+compatibility_date = "2023-03-30"
+compatibility_flags = [ "nodejs_compat" ]
+
+account_id = "e14fbb7fa1198400633aaa87352af647"
+workers_dev = true
+
+[[r2_buckets]]
+binding = 'BUCKET_CORA_PIC_G'
+bucket_name = 'cora-pic-g'
+preview_bucket_name = 'dev-cora-pic-g'
+
+[vars]
+BUCKET_PREVIEW_URL = "https://pub-b2730faa59754abe9c00d8a06271dec1.r2.dev"
+
+[env.development.vars]
+BUCKET_PREVIEW_URL = "https://pub-b2730faa59754abe9c00d8a06271dec1.r2.dev"
+
+[env.production.vars]
+BUCKET_PREVIEW_URL = "https://pub-b2730faa59754abe9c00d8a06271dec1.r2.dev"
