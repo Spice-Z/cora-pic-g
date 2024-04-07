@@ -1,6 +1,6 @@
 {
-	"name": "template-worker-speedtest",
-	"version": "0.0.0",
+	"name": "cora-pic-g",
+	"version": "1",
 	"private": true,
 	"scripts": {
 		"deploy": "wrangler deploy --env prod --minify src/index.ts",
