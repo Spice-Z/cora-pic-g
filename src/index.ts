@@ -5,27 +5,37 @@ export interface Env {
 	BUCKET_PREVIEW_URL: string;
 }
 
+type GenData = {
+	base64?: string;
+	title?: string;
+	width?: string;
+	height?: string;
+};
+
 export default {
 	async fetch(req: Request, env: Env) {
-		console.log(env)
 		let url = new URL(req.url);
 		let path = url.pathname.replace(/[/]$/, '');
 
-		switch (path) {
-			case '/gen': {
-				const key = await genHTML(
-					{
-						imageSrc: 'https://www.cora-pic.com/_next/image?url=%2Fimages%2Fja%2Fsamples%2Ftv_subtitle.jpg&w=256&q=75',
-						title: 'Example',
-					},
-					env.BUCKET_CORA_PIC_G
-				);
-				const htmlUrl = `${env.BUCKET_PREVIEW_URL}/${key}`;
-				return new Response(htmlUrl, { status: 200 });
+		if (req.method === 'POST' && path === '/gen') {
+			console.log('POST /gen')
+			const data = await req.json<GenData>();
+			console.log(data)
+			if (!data.base64 || !data.title) {
+				return new Response('Invalid request', { status: 400 });
 			}
-			default: {
-				return new Response('Not found', { status: 404 });
-			}
+			const key = await genHTML(
+				{
+					base64: data.base64,
+					title: data.title,
+				},
+				env.BUCKET_CORA_PIC_G,
+				env.BUCKET_PREVIEW_URL
+			);
+			const htmlUrl = `${env.BUCKET_PREVIEW_URL}/${key}`;
+			return new Response(htmlUrl, { status: 200 });
+		} else {
+			return new Response('Not found', { status: 404 });
 		}
 	},
 };
