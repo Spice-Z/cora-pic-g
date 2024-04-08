@@ -2,7 +2,6 @@ import { randomUUID } from 'node:crypto';
 import { genFromTemplate } from './templates/template.html.js';
 import { detectType } from './utils.js';
 
-
 interface GenHtmlArgs {
 	base64: string;
 	title: string;
@@ -17,18 +16,18 @@ export async function genHTML({ base64, title }: GenHtmlArgs, bucket: R2Bucket, 
 	if (!imageType) {
 		throw new Error('Invalid image type');
 	}
-	const imageBinary = Uint8Array.from(atob(base64Image), (c) => c.charCodeAt(0))
+	const imageBinary = Uint8Array.from(atob(base64Image), (c) => c.charCodeAt(0));
 	const uuid = randomUUID();
 	const imageKey = `gen/${uuid}.${imageType.suffix}`;
-	try	{
+	try {
 		await bucket.put(imageKey, imageBinary, { httpMetadata: { contentType: imageType.mimeType } });
-	} catch	(e) {
+	} catch (e) {
 		throw new Error('Error saving image');
 	}
 	const imageSrc = `${bucketPreviewUrl}/${imageKey}`;
 
-		const html = genFromTemplate({ imageSrc, title });
-		const key = `gen/${uuid}.html`;
-		await bucket.put(key, html, { httpMetadata: { contentType: 'text/html' } });
-		return key;
+	const html = genFromTemplate({ imageSrc, title });
+	const key = `gen/${uuid}.html`;
+	await bucket.put(key, html, { httpMetadata: { contentType: 'text/html' } });
+	return key;
 }
