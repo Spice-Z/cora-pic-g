@@ -3,7 +3,8 @@
 	"version": "1",
 	"private": true,
 	"scripts": {
-		"deploy": "wrangler deploy --env prod --minify src/index.ts",
+		"deploy:prod": "wrangler deploy --env prod --minify src/index.ts",
+		"deploy:dev": "wrangler deploy --env dev --minify src/index.ts",
 		"dev": "wrangler dev --env dev --remote src/index.ts"
 	},
 	"dependencies": {

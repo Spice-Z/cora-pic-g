@@ -10,7 +10,7 @@ workers_dev = true
 [env.dev]
 vars = { BUCKET_PREVIEW_URL = "https://pub-b2730faa59754abe9c00d8a06271dec1.r2.dev" }
 r2_buckets = [
-  { binding = "BUCKET_CORA_PIC_G", bucket_name = "cora-pic-g", preview_bucket_name = "dev-cora-pic-g" }
+  { binding = "BUCKET_CORA_PIC_G", bucket_name = "dev-cora-pic-g", preview_bucket_name = "dev-cora-pic-g" }
 ]
 
 [env.prod]
