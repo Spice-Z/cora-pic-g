@@ -4,17 +4,26 @@ compatibility_date = "2023-03-30"
 compatibility_flags = [ "nodejs_compat" ]
 
 account_id = "e14fbb7fa1198400633aaa87352af647"
-workers_dev = true
+workers_dev = false
 
-
-[env.dev]
-vars = { BUCKET_PREVIEW_URL = "https://pub-b2730faa59754abe9c00d8a06271dec1.r2.dev" }
+[env.local]
+vars = { BUCKET_PREVIEW_URL = "https://dev.g.cora-pic.com", NODE_ENV = "local"}
 r2_buckets = [
   { binding = "BUCKET_CORA_PIC_G", bucket_name = "dev-cora-pic-g", preview_bucket_name = "dev-cora-pic-g" }
 ]
 
+[env.dev]
+name = "dev-api-cora"
+vars = { BUCKET_PREVIEW_URL = "https://dev.g.cora-pic.com", NODE_ENV = "development"}
+r2_buckets = [
+  { binding = "BUCKET_CORA_PIC_G", bucket_name = "dev-cora-pic-g", preview_bucket_name = "dev-cora-pic-g" }
+]
+routes = [{ pattern = "dev.api-cora.cora-pic.com", custom_domain = true }]
+
 [env.prod]
-vars = { BUCKET_PREVIEW_URL = "https://pub-60f1368f3830437c9e91999775d62d44.r2.dev" }
+name = "api-cora"
+vars = { BUCKET_PREVIEW_URL = "https://g.cora-pic.com", NODE_ENV = "production" }
 r2_buckets = [
   { binding = "BUCKET_CORA_PIC_G", bucket_name = "cora-pic-g" }
 ]
+routes = [{ pattern = "api-cora.cora-pic.com", custom_domain = true }]

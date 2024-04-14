@@ -5,7 +5,7 @@
 	"scripts": {
 		"deploy:prod": "wrangler deploy --env prod --minify src/index.ts",
 		"deploy:dev": "wrangler deploy --env dev --minify src/index.ts",
-		"dev": "wrangler dev --env dev --remote src/index.ts"
+		"dev": "wrangler dev --env local --remote src/index.ts"
 	},
 	"dependencies": {
 		"hono": "^4.2.2"

@@ -1,9 +1,11 @@
 import { Hono } from 'hono';
 import { genHTML } from './gen.js';
+import { cors } from 'hono/cors';
 
 type Bindings = {
 	BUCKET_CORA_PIC_G: R2Bucket;
 	BUCKET_PREVIEW_URL: string;
+	NODE_ENV: "local" |  "development" | "production";
 };
 
 type Variables = {
@@ -22,9 +24,28 @@ const app = new Hono<{
 	Variables: Variables;
 }>();
 
-app.get('/', (c) => {
-	return c.text('Hello Hono!');
-});
+
+app.use('*', cors({
+	origin: (_,c) => { 
+		if (c.env.NODE_ENV	=== 'local') {
+			return '*';
+		} 
+		if (c.env.NODE_ENV === 'development') {
+			return 'http://localhost:3000';
+		}
+		return 'https://cora-pic.com';
+	},
+	allowHeaders: ['Content-Type', 'Authorization'],
+	allowMethods: ['POST', 'GET', 'OPTIONS'],
+	exposeHeaders: ['Content-Length'],
+	maxAge: 600,
+	credentials: true,
+}))
+
+// app.use(async (c, next) => {
+//   console.log(`[${c.req.method}] ${c.req.url}`)
+//   await next()
+// })
 
 app.post('/gen', async (c) => {
 	const data = await c.req.json<GenData>();
