@@ -24,14 +24,13 @@ const app = new Hono<{
 	Variables: Variables;
 }>();
 
-
 app.use('*', cors({
 	origin: (_,c) => { 
 		if (c.env.NODE_ENV	=== 'local') {
 			return '*';
 		} 
 		if (c.env.NODE_ENV === 'development') {
-			return 'http://localhost:3000';
+			return 'https://stage.cora-pic.com';
 		}
 		return 'https://cora-pic.com';
 	},
