@@ -5,9 +5,10 @@ import { detectType } from './utils.js';
 interface GenHtmlArgs {
 	base64: string;
 	title: string;
+	lang: 'ja' | 'en';
 }
 
-export async function genHTML({ base64, title }: GenHtmlArgs, bucket: R2Bucket, bucketPreviewUrl: string): Promise<string> {
+export async function genHTML({ base64, title, lang }: GenHtmlArgs, bucket: R2Bucket, bucketPreviewUrl: string): Promise<string> {
 	const base64Image = base64.split(';base64,').pop();
 	if (!base64Image) {
 		throw new Error('Invalid base64 image');
@@ -26,7 +27,7 @@ export async function genHTML({ base64, title }: GenHtmlArgs, bucket: R2Bucket, 
 	}
 	const imageSrc = `${bucketPreviewUrl}/${imageKey}`;
 
-	const html = genFromTemplate({ imageSrc, title });
+	const html = genFromTemplate({ imageSrc, title, lang });
 	const key = `gen/${uuid}.html`;
 	await bucket.put(key, html, { httpMetadata: { contentType: 'text/html' } });
 	return key;

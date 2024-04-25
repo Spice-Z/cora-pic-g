@@ -14,7 +14,8 @@ type Variables = {
 
 type GenData = {
 	base64?: string;
-	title?: string;
+	title?: "ja" | "en";
+	lang?:	string;
 	width?: string;
 	height?: string;
 };
@@ -51,10 +52,12 @@ app.post('/gen', async (c) => {
 	if (!data.base64 || !data.title) {
 		return c.json({ error: 'Invalid request' }, 400);
 	}
+	const lang = data.lang == 'ja' ? 'ja' : 'en';
 	const key = await genHTML(
 		{
 			base64: data.base64,
 			title: data.title,
+			lang,
 		},
 		c.env.BUCKET_CORA_PIC_G,
 		c.env.BUCKET_PREVIEW_URL
