@@ -3,7 +3,6 @@ main = "./src/index.ts"
 compatibility_date = "2023-03-30"
 compatibility_flags = [ "nodejs_compat" ]
 
-account_id = "e14fbb7fa1198400633aaa87352af647"
 workers_dev = false
 
 [env.local]
