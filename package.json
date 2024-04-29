@@ -8,7 +8,7 @@
 		"dev": "wrangler dev --env local --remote src/index.ts"
 	},
 	"dependencies": {
-		"hono": "^4.2.4"
+		"hono": "^4.2.9"
 	},
 	"devDependencies": {
 		"@cloudflare/workers-types": "^4.20240403.0",
